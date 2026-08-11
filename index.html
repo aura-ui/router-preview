@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" data-navigating="false">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Aura Router adds client-side navigation, nested layouts, and intent prefetch to complete HTML pages."
+    />
+    <meta name="theme-color" content="#e2ad00" />
+    <title>HTML-first navigation – Aura Router</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="/" aura-router-link>
+          <span class="brand__mark" aria-hidden="true">A</span>
+          <span>Aura Router</span>
+        </a>
+        <nav class="site-nav" data-site-nav aria-label="Primary navigation">
+          <a href="/" aura-router-link>Home</a>
+          <a href="/about/" aura-router-link>How it works</a>
+          <a href="/migration/" aura-router-link>Migration</a>
+          <a href="/workspace/" aura-router-link>Nested demo</a>
+        </nav>
+        <a class="github-link" href="https://github.com/aura-ui/router">View on GitHub ↗</a>
+      </div>
+      <div class="navigation-progress" aria-hidden="true"></div>
+    </header>
+
+    <section class="demo-status" aria-label="Live navigation proof">
+      <div class="demo-status__topline">
+        <span class="demo-status__label">
+          <span class="demo-status__dot" aria-hidden="true"></span>
+          Live navigation proof
+        </span>
+        <span class="demo-status__hint">Click around. If the Load ID stays put, Aura handled it.</span>
+      </div>
+      <dl class="demo-status__grid">
+        <div class="status-value"><dt>Full page loads</dt><dd data-document-load>–</dd></div>
+        <div class="status-value"><dt>Load ID</dt><dd data-boot-token>–</dd></div>
+        <div class="status-value"><dt>Started at</dt><dd data-boot-time>–</dd></div>
+        <div class="status-value"><dt>Client transitions</dt><dd data-spa-count>0</dd></div>
+        <div class="status-value"><dt>Last update</dt><dd data-last-navigation>Static HTML loaded</dd></div>
+      </dl>
+    </section>
+
+    <noscript>
+      <p class="noscript">
+        JavaScript is disabled. Good: every link still opens a real HTML page.
+      </p>
+    </noscript>
+
+    <main id="content" class="page">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">MPA first. SPA when ready.</p>
+          <h1>Keep the HTML. Upgrade the navigation.</h1>
+          <p class="lede">
+            Turn the HTML you already ship into an SPA experience – with nested layouts
+            and route lifecycle, but without rebuilding it as an app shell.
+          </p>
+          <div class="actions">
+            <a class="button button--primary" href="/about/" aura-router-link>Try it. No reload.</a>
+            <a class="button" href="/migration/" aura-router-link>See the three-step migration</a>
+          </div>
+        </div>
+        <aside class="proof-panel" aria-label="Ways to verify the demo">
+          <p class="proof-panel__title">This demo is honest HTML.</p>
+          <ul class="proof-list">
+            <li><span class="check">✓</span><span><strong>View source:</strong> the content is already there.</span></li>
+            <li><span class="check">✓</span><span><strong>Disable JavaScript:</strong> every link still works.</span></li>
+            <li><span class="check">✓</span><span><strong>Enable JavaScript:</strong> pages change without a full reload.</span></li>
+          </ul>
+        </aside>
+      </div>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">The upgrade path</p>
+            <h2>Progressive by default</h2>
+          </div>
+          <p>
+            On the first visit, the browser loads a complete page from your host. Aura then
+            adopts the rendered content and enhances marked same-origin links.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <span class="card__index">01 / HTML</span>
+            <h3>Real pages</h3>
+            <p>Each URL returns useful HTML for people, search crawlers and browsers without JavaScript.</p>
+          </article>
+          <article class="card">
+            <span class="card__index">02 / REUSE</span>
+            <h3>No duplicate first fetch</h3>
+            <p>On flat routes, Aura adopts the <code>#content</code> already on screen and skips the pointless second fetch.</p>
+          </article>
+          <article class="card">
+            <span class="card__index">03 / NAVIGATE</span>
+            <h3>SPA after boot</h3>
+            <p>Later links fetch HTML, extract the next view, and update browser history.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Minimal setup</p>
+            <h2>Routes stay in HTML</h2>
+          </div>
+          <p>No framework adapter is required. Use plain HTML, vanilla Custom Elements or Lit.</p>
+        </div>
+        <div class="code-window">
+          <div class="code-window__bar">
+            <span>index.html</span>
+            <button class="copy-button" type="button" data-copy="#quick-start" aria-label="Copy quick start">Copy</button>
+          </div>
+          <pre id="quick-start"><code class="language-html">&lt;aura-outlet&gt;&lt;/aura-outlet&gt;
+
+&lt;aura-router extract="#content"&gt;
+  &lt;aura-route path="/" view="/"&gt;&lt;/aura-route&gt;
+  &lt;aura-route path="/about/" view="/about/"&gt;&lt;/aura-route&gt;
+&lt;/aura-router&gt;
+
+&lt;a href="/about/" aura-router-link&gt;About&lt;/a&gt;
+
+&lt;script type="module"&gt;
+  import { AuraRouter } from '@auraui/router';
+  AuraRouter.install();
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+    </main>
+    <aura-outlet></aura-outlet>
+
+    <aura-router
+      extract="#content"
+      prefetch="intent"
+      scroll="auto"
+      link-active-class="is-active"
+      link-active-branch-class="is-active"
+    >
+      <aura-route path="/" view="/"></aura-route>
+      <aura-route path="/about/" view="/about/"></aura-route>
+      <aura-route path="/migration/" view="/migration/"></aura-route>
+      <aura-route path="/workspace/" layout="workspace-shell">
+        <aura-route path="." view="/workspace/"></aura-route>
+        <aura-route path="settings" view="/workspace/settings/"></aura-route>
+      </aura-route>
+      <aura-route path="*" view="template::not-found"></aura-route>
+    </aura-router>
+
+    <template id="workspace-shell">
+      <section class="workspace-shell" data-workspace-shell>
+        <aside class="workspace-sidebar">
+          <p class="workspace-sidebar__brand">Shared workspace layout</p>
+          <nav aria-label="Workspace navigation">
+            <a href="/workspace/" aura-router-link>Overview</a>
+            <a href="/workspace/settings/" aura-router-link>Settings</a>
+          </nav>
+          <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
+        </aside>
+        <aura-outlet class="workspace-content"></aura-outlet>
+      </section>
+    </template>
+
+    <template id="not-found">
+      <main id="content" class="page">
+        <p class="eyebrow">404</p>
+        <h1>Lost route. No reload.</h1>
+        <p class="lede">Aura caught it without reloading. Open this URL directly and the host still returns a real 404.</p>
+        <a class="button button--primary" href="/" aura-router-link>Return home</a>
+      </main>
+    </template>
+
+    <p class="sr-only" aria-live="polite" data-route-announcer></p>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <span>Aura Router 0.1.0 · HTML-first routing for Web Components</span>
+        <span><a href="https://www.npmjs.com/package/@auraui/router">npm</a> · <a href="https://github.com/aura-ui/router/blob/main/docs/guide.md">Docs</a></span>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
