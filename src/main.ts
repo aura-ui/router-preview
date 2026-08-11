@@ -4,6 +4,12 @@ import {
   AURA_ROUTER_NAVIGATION_ERROR,
   AURA_ROUTER_NAVIGATION_START,
 } from '@auraui/router';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import xml from 'highlight.js/lib/languages/xml';
+
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('html', xml);
 
 const pageSessionKey = 'aura-demo-document-loads';
 const documentLoads = Number(sessionStorage.getItem(pageSessionKey) ?? '0') + 1;
@@ -109,6 +115,12 @@ function handleCopy(button: HTMLButtonElement): void {
   });
 }
 
+function highlightCodeExamples(): void {
+  for (const code of document.querySelectorAll<HTMLElement>('pre code')) {
+    if (!code.dataset.highlighted) hljs.highlightElement(code);
+  }
+}
+
 async function waitForBootstrap(router: AuraRouter): Promise<void> {
   const deadline = performance.now() + 3_000;
   while (router.activeRouteBranch.length === 0 && performance.now() < deadline) {
@@ -135,6 +147,7 @@ async function boot(): Promise<void> {
     syncActiveLinks(detail.to);
     syncDocumentTitle(detail.to);
     syncWorkspaceInstance();
+    highlightCodeExamples();
     renderStatus(`${detail.to} · ${duration.toFixed(0)} ms · no reload`);
     focusPageHeading();
     announce(`Loaded ${document.title.replace(' – Aura Router', '')} without a full page reload`);
@@ -159,6 +172,7 @@ async function boot(): Promise<void> {
   syncActiveLinks();
   syncDocumentTitle();
   syncWorkspaceInstance();
+  highlightCodeExamples();
   renderStatus();
   document.documentElement.dataset.routerReady = 'true';
 }

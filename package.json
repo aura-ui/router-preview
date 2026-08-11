@@ -17,6 +17,7 @@
     "vite": "^8.2.1"
   },
   "dependencies": {
-    "@auraui/router": "0.1.0"
+    "@auraui/router": "0.1.0",
+    "highlight.js": "^11.11.2"
   }
 }
