@@ -16,11 +16,11 @@ The demo keeps a complete HTML page at every public URL:
 
 | URL | Purpose |
 | --- | --- |
-| `/` | Overview, live navigation proof and quick start |
-| `/about/` | How the initial page becomes client navigation |
-| `/migration/` | Three-step static-site migration |
-| `/workspace/` | Nested layout overview |
-| `/workspace/settings/` | Child route proving layout persistence |
+| `/router-preview/` | Overview, live navigation proof and quick start |
+| `/router-preview/about/` | How the initial page becomes client navigation |
+| `/router-preview/migration/` | Three-step static-site migration |
+| `/router-preview/workspace/` | Nested layout overview |
+| `/router-preview/workspace/settings/` | Child route proving layout persistence |
 
 ## Local development
 
@@ -37,7 +37,7 @@ npm run dev
 ```
 
 The demo consumes the published `@auraui/router@0.1.0` package from npm. Open
-the URL printed by Vite.
+the `/router-preview/` URL printed by Vite.
 
 ## Production build
 
@@ -81,13 +81,16 @@ The suite verifies:
 
 ## Deployment
 
-Publish the contents of `dist/` to a static host at the **domain root**.
+The repository deploys `dist/` to GitHub Pages after every push to `main`:
 
-Suitable targets include Netlify, Cloudflare Pages, Vercel static output,
-GitHub Pages with a custom root domain, nginx and S3/CloudFront configured for
-directory indexes.
+```text
+https://aura-ui.github.io/router-preview/
+```
 
-Recommended build settings:
+Enable the workflow under **Settings → Pages → Build and deployment → GitHub
+Actions**.
+
+Equivalent build settings for another static host:
 
 ```text
 Build command: npm ci && npm run build
@@ -96,19 +99,8 @@ Publish directory: dist
 
 Do not configure a catch-all rewrite to `/index.html`. Each route should resolve
 to its own `*/index.html`, and an unknown direct URL should remain a static
-`404`.
-
-### Subfolder hosting
-
-The current router release does not provide `basename`. Root-absolute routes and
-assets in this demo therefore assume deployment at `/`, for example:
-
-```text
-https://router-demo.example.com/
-```
-
-Do not deploy this build under a project subpath such as
-`https://example.com/router/` until basename support is available.
+`404`. The `/router-preview/` prefix is intentionally explicit because the
+current router release does not provide a `basename` option.
 
 ## Manual publication check
 

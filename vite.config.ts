@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   appType: 'mpa',
-  base: '/',
+  base: '/router-preview/',
   build: {
     target: 'es2022',
     outDir: 'dist',

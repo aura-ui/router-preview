@@ -14,15 +14,15 @@
   <body>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand" href="/" aura-router-link>
+        <a class="brand" href="/router-preview/" aura-router-link>
           <span class="brand__mark" aria-hidden="true">A</span>
           <span>Aura Router</span>
         </a>
         <nav class="site-nav" data-site-nav aria-label="Primary navigation">
-          <a href="/" aura-router-link>Home</a>
-          <a href="/about/" aura-router-link>How it works</a>
-          <a href="/migration/" aura-router-link>Migration</a>
-          <a href="/workspace/" aura-router-link>Nested demo</a>
+          <a href="/router-preview/" aura-router-link>Home</a>
+          <a href="/router-preview/about/" aura-router-link>How it works</a>
+          <a href="/router-preview/migration/" aura-router-link>Migration</a>
+          <a href="/router-preview/workspace/" aura-router-link>Nested demo</a>
         </nav>
         <a class="github-link" href="https://github.com/aura-ui/router">View on GitHub ↗</a>
       </div>
@@ -62,8 +62,8 @@
             and route lifecycle, but without rebuilding it as an app shell.
           </p>
           <div class="actions">
-            <a class="button button--primary" href="/about/" aura-router-link>Try it. No reload.</a>
-            <a class="button" href="/migration/" aura-router-link>See the three-step migration</a>
+            <a class="button button--primary" href="/router-preview/about/" aura-router-link>Try it. No reload.</a>
+            <a class="button" href="/router-preview/migration/" aura-router-link>See the three-step migration</a>
           </div>
         </div>
         <aside class="proof-panel" aria-label="Ways to verify the demo">
@@ -144,12 +144,12 @@
       link-active-class="is-active"
       link-active-branch-class="is-active"
     >
-      <aura-route path="/" view="/"></aura-route>
-      <aura-route path="/about/" view="/about/"></aura-route>
-      <aura-route path="/migration/" view="/migration/"></aura-route>
-      <aura-route path="/workspace/" layout="workspace-shell">
-        <aura-route path="." view="/workspace/"></aura-route>
-        <aura-route path="settings" view="/workspace/settings/"></aura-route>
+      <aura-route path="/router-preview/" view="/router-preview/"></aura-route>
+      <aura-route path="/router-preview/about/" view="/router-preview/about/"></aura-route>
+      <aura-route path="/router-preview/migration/" view="/router-preview/migration/"></aura-route>
+      <aura-route path="/router-preview/workspace/" layout="workspace-shell" scroll="none">
+        <aura-route path="." view="/router-preview/workspace/"></aura-route>
+        <aura-route path="settings" view="/router-preview/workspace/settings/"></aura-route>
       </aura-route>
       <aura-route path="*" view="template::not-found"></aura-route>
     </aura-router>
@@ -159,8 +159,8 @@
         <aside class="workspace-sidebar">
           <p class="workspace-sidebar__brand">Shared workspace layout</p>
           <nav aria-label="Workspace navigation">
-            <a href="/workspace/" aura-router-link>Overview</a>
-            <a href="/workspace/settings/" aura-router-link>Settings</a>
+            <a href="/router-preview/workspace/" aura-router-link>Overview</a>
+            <a href="/router-preview/workspace/settings/" aura-router-link>Settings</a>
           </nav>
           <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
         </aside>
@@ -173,7 +173,7 @@
         <p class="eyebrow">404</p>
         <h1>Lost route. No reload.</h1>
         <p class="lede">Aura caught it without reloading. Open this URL directly and the host still returns a real 404.</p>
-        <a class="button button--primary" href="/" aura-router-link>Return home</a>
+        <a class="button button--primary" href="/router-preview/" aura-router-link>Return home</a>
       </main>
     </template>
 
