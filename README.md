@@ -24,34 +24,34 @@ The demo is intentionally different from an SPA shell:
 
 ## Local development
 
-Install the repository and demo dependencies:
+Install dependencies:
 
 ```bash
 npm ci
-npm --prefix demo ci
 ```
 
 Start the demo:
 
 ```bash
-npm --prefix demo run dev
+npm run dev
 ```
 
-The `predev` script builds the root library first. Open the URL printed by Vite.
+The demo consumes the published `@auraui/router@0.1.0` package from npm. Open
+the URL printed by Vite.
 
 ## Production build
 
 ```bash
-npm --prefix demo run build
+npm run build
 ```
 
-The command builds the actual package entry from the repository and then emits
-the static site to `demo/dist/`.
+The command bundles the installed router package and emits the static site to
+`dist/`.
 
 Preview the result:
 
 ```bash
-npm --prefix demo run preview
+npm run preview
 ```
 
 ## Browser tests
@@ -59,17 +59,15 @@ npm --prefix demo run preview
 Install Chromium once:
 
 ```bash
-cd demo
 npx playwright install chromium
-cd ..
 ```
 
 Build and run the desktop/mobile tests:
 
 ```bash
-npm --prefix demo run build
-npm --prefix demo run typecheck
-npm --prefix demo run test:e2e
+npm run build
+npm run typecheck
+npm run test:e2e
 ```
 
 The suite verifies:
@@ -83,7 +81,7 @@ The suite verifies:
 
 ## Deployment
 
-Publish the contents of `demo/dist/` to a static host at the **domain root**.
+Publish the contents of `dist/` to a static host at the **domain root**.
 
 Suitable targets include Netlify, Cloudflare Pages, Vercel static output,
 GitHub Pages with a custom root domain, nginx and S3/CloudFront configured for
@@ -92,8 +90,8 @@ directory indexes.
 Recommended build settings:
 
 ```text
-Build command: npm ci && npm --prefix demo ci && npm --prefix demo run build
-Publish directory: demo/dist
+Build command: npm ci && npm run build
+Publish directory: dist
 ```
 
 Do not configure a catch-all rewrite to `/index.html`. This is a real MPA: each

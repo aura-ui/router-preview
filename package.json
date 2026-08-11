@@ -4,21 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "npm --prefix .. run build",
     "dev": "vite --host 127.0.0.1",
-    "prebuild": "npm --prefix .. run build",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test"
-  },
-  "dependencies": {
-    "@auraui/router": "file:.."
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.2.0",
     "typescript": "^7.0.2",
     "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "@auraui/router": "0.1.0"
   }
 }
