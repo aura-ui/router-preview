@@ -59,7 +59,7 @@ function syncDocumentTitle(pathname = window.location.pathname): void {
   const routePath = normalizePath(new URL(pathname, window.location.href).pathname);
   const heading = document.querySelector<HTMLElement>('#content h1');
   const title = routeTitles.get(routePath) ?? heading?.textContent?.trim() ?? 'Demo';
-  document.title = `${title} — Aura Router`;
+  document.title = `${title} – Aura Router`;
 }
 
 function syncWorkspaceInstance(): void {
@@ -138,7 +138,7 @@ async function boot(): Promise<void> {
     syncWorkspaceInstance();
     renderStatus(`${detail.to} · ${duration.toFixed(0)} ms · no reload`);
     focusPageHeading();
-    announce(`Loaded ${document.title.replace(' — Aura Router', '')} without a full page reload`);
+    announce(`Loaded ${document.title.replace(' – Aura Router', '')} without a full page reload`);
   });
 
   router.addEventListener(AURA_ROUTER_NAVIGATION_ERROR, (event) => {
