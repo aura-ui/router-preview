@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A child route rendered inside a persistent Aura Router layout." />
+    <meta name="description" content="A child route inside an Aura Router parent layout that stays mounted." />
     <meta name="theme-color" content="#e2ad00" />
     <title>Workspace settings — Aura Router</title>
   </head>
@@ -17,7 +17,7 @@
           <a href="/migration/" aura-router-link>Migration</a>
           <a href="/workspace/" aura-router-link>Nested demo</a>
         </nav>
-        <a class="github-link" href="https://github.com/aura-ui/router">GitHub ↗</a>
+        <a class="github-link" href="https://github.com/aura-ui/router">View on GitHub ↗</a>
       </div>
       <div class="navigation-progress" aria-hidden="true"></div>
     </header>
@@ -25,45 +25,45 @@
     <section class="demo-status" aria-label="Live navigation proof">
       <div class="demo-status__topline">
         <span class="demo-status__label"><span class="demo-status__dot" aria-hidden="true"></span>Live navigation proof</span>
-        <span class="demo-status__hint">Compare both persistent identifiers</span>
+        <span class="demo-status__hint">Switch routes. Same Load ID. Same Layout ID.</span>
       </div>
       <dl class="demo-status__grid">
-        <div class="status-value"><dt>Document load</dt><dd data-document-load>—</dd></div>
-        <div class="status-value"><dt>Boot token</dt><dd data-boot-token>—</dd></div>
-        <div class="status-value"><dt>Boot time</dt><dd data-boot-time>—</dd></div>
-        <div class="status-value"><dt>SPA transitions</dt><dd data-spa-count>0</dd></div>
-        <div class="status-value"><dt>Last navigation</dt><dd data-last-navigation>HTML only</dd></div>
+        <div class="status-value"><dt>Full page loads</dt><dd data-document-load>—</dd></div>
+        <div class="status-value"><dt>Load ID</dt><dd data-boot-token>—</dd></div>
+        <div class="status-value"><dt>Started at</dt><dd data-boot-time>—</dd></div>
+        <div class="status-value"><dt>Client transitions</dt><dd data-spa-count>0</dd></div>
+        <div class="status-value"><dt>Last update</dt><dd data-last-navigation>Static HTML loaded</dd></div>
       </dl>
     </section>
 
-    <noscript><p class="noscript">JavaScript is disabled. This nested URL still contains its complete content.</p></noscript>
+    <noscript><p class="noscript">JavaScript is disabled. Good: this nested URL still opens as a complete HTML page.</p></noscript>
 
     <aura-outlet>
       <section class="workspace-shell" aura-router-ssr data-aura-view-root data-workspace-shell>
         <aside class="workspace-sidebar">
-          <p class="workspace-sidebar__brand">Persistent workspace</p>
+          <p class="workspace-sidebar__brand">Shared workspace layout</p>
           <nav aria-label="Workspace navigation">
             <a href="/workspace/" aura-router-link>Overview</a>
             <a href="/workspace/settings/" aura-router-link>Settings</a>
           </nav>
-          <p class="shell-proof">Layout instance<code data-shell-instance>pending</code></p>
+          <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
         </aside>
         <aura-outlet class="workspace-content">
           <main id="content" class="page" data-aura-view-root>
-            <p class="eyebrow">Nested route / settings</p>
-            <h1>Only this leaf changed.</h1>
+            <p class="eyebrow">Nested layout · Settings</p>
+            <h1>The child page changed. The layout did not.</h1>
             <p class="lede">
-              The surrounding workspace is the same DOM instance. These controls are
-              illustrative; the route transition itself is real.
+              The sidebar never remounted—compare its layout ID. Below is the exact
+              behavior powering this demo—status only, no fake toggles.
             </p>
             <div class="settings-list">
-              <div class="setting"><div><strong>Intent prefetch</strong><p>Prepare eligible links on hover or keyboard focus.</p></div><span class="toggle" aria-hidden="true"></span><span class="sr-only">Enabled</span></div>
-              <div class="setting"><div><strong>Scroll restoration</strong><p>Restore saved positions on browser history navigation.</p></div><span class="toggle" aria-hidden="true"></span><span class="sr-only">Enabled</span></div>
-              <div class="setting"><div><strong>Nested cache</strong><p>Keep the parent branch while replacing only this leaf.</p></div><span class="toggle" aria-hidden="true"></span><span class="sr-only">Enabled</span></div>
+              <div class="setting"><div><strong>Intent prefetch</strong><p>Start preparing a marked link on pointer hover or keyboard focus.</p></div><span class="feature-state">Used here</span></div>
+              <div class="setting"><div><strong>Scroll restoration</strong><p>Restore saved scroll positions during browser history navigation.</p></div><span class="feature-state">Used here</span></div>
+              <div class="setting"><div><strong>Persistent parent layout</strong><p>Keep the parent layout mounted when only the child route changes.</p></div><span class="feature-state">Used here</span></div>
             </div>
             <div class="actions section">
               <a class="button button--primary" href="/workspace/" aura-router-link>Back to overview</a>
-              <a class="button" href="/migration/" aura-router-link>Read migration</a>
+              <a class="button" href="/migration/" aura-router-link>See the migration</a>
             </div>
           </main>
         </aura-outlet>
@@ -83,15 +83,15 @@
     <template id="workspace-shell">
       <section class="workspace-shell" data-workspace-shell>
         <aside class="workspace-sidebar">
-          <p class="workspace-sidebar__brand">Persistent workspace</p>
+          <p class="workspace-sidebar__brand">Shared workspace layout</p>
           <nav aria-label="Workspace navigation"><a href="/workspace/" aura-router-link>Overview</a><a href="/workspace/settings/" aura-router-link>Settings</a></nav>
-          <p class="shell-proof">Layout instance<code data-shell-instance>pending</code></p>
+          <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
         </aside>
         <aura-outlet class="workspace-content"></aura-outlet>
       </section>
     </template>
     <template id="not-found">
-      <main id="content" class="page"><p class="eyebrow">404</p><h1>That route is not in this demo.</h1><p class="lede">The client catch-all kept the navigation inside the current document.</p><a class="button button--primary" href="/" aura-router-link>Return home</a></main>
+      <main id="content" class="page"><p class="eyebrow">404</p><h1>Lost route. No reload.</h1><p class="lede">Aura caught it without reloading. Open this URL directly and the host still returns a real 404.</p><a class="button button--primary" href="/" aura-router-link>Return home</a></main>
     </template>
 
     <p class="sr-only" aria-live="polite" data-route-announcer></p>

@@ -300,6 +300,7 @@ h2,
 h3 {
   line-height: 1.12;
   letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
 h1 {
@@ -645,14 +646,16 @@ pre {
   font-size: 13px;
 }
 
-.toggle {
-  display: inline-block;
-  width: 42px;
-  height: 24px;
+.feature-state {
   flex: 0 0 auto;
-  border: 0;
-  border-radius: 99px;
-  background: var(--accent);
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .site-footer {
@@ -776,8 +779,14 @@ pre {
     padding: 48px 0 64px;
   }
 
+  .demo-status__topline {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .demo-status__hint {
-    display: none;
+    line-height: 1.45;
   }
 
   .card-grid,

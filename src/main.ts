@@ -15,6 +15,14 @@ const bootToken = crypto.randomUUID().slice(0, 8);
 let spaNavigations = 0;
 let navigationStartedAt = 0;
 
+const routeTitles = new Map([
+  ['/', 'HTML-first navigation'],
+  ['/about', 'How it works'],
+  ['/migration', 'Migration guide'],
+  ['/workspace', 'Nested layout demo'],
+  ['/workspace/settings', 'Workspace settings'],
+]);
+
 function text(selector: string, value: string): void {
   const element = document.querySelector<HTMLElement>(selector);
   if (element) element.textContent = value;
@@ -47,10 +55,11 @@ function syncActiveLinks(pathname = window.location.pathname): void {
   }
 }
 
-function syncDocumentTitle(): void {
+function syncDocumentTitle(pathname = window.location.pathname): void {
+  const routePath = normalizePath(new URL(pathname, window.location.href).pathname);
   const heading = document.querySelector<HTMLElement>('#content h1');
-  if (!heading) return;
-  document.title = `${heading.textContent?.trim() || 'Demo'} — Aura Router`;
+  const title = routeTitles.get(routePath) ?? heading?.textContent?.trim() ?? 'Demo';
+  document.title = `${title} — Aura Router`;
 }
 
 function syncWorkspaceInstance(): void {
@@ -65,7 +74,7 @@ function syncWorkspaceInstance(): void {
   if (output) output.textContent = shell.dataset.instance;
 }
 
-function renderStatus(lastNavigation = 'Initial HTML document'): void {
+function renderStatus(lastNavigation = 'HTML arrived. Aura is ready.'): void {
   text('[data-document-load]', `#${documentLoads}`);
   text('[data-boot-token]', bootToken);
   text(
@@ -94,7 +103,7 @@ function handleCopy(button: HTMLButtonElement): void {
 
   void navigator.clipboard.writeText(target.textContent ?? '').then(() => {
     const previous = button.textContent;
-    button.textContent = 'Copied';
+    button.textContent = 'Copied!';
     window.setTimeout(() => {
       button.textContent = previous;
     }, 1400);
@@ -115,7 +124,7 @@ async function boot(): Promise<void> {
   router.addEventListener(AURA_ROUTER_NAVIGATION_START, () => {
     navigationStartedAt = performance.now();
     document.documentElement.dataset.navigating = 'true';
-    text('[data-last-navigation]', 'Loading…');
+    text('[data-last-navigation]', 'Preparing the next page…');
   });
 
   router.addEventListener(AURA_ROUTER_NAVIGATION, (event) => {
@@ -125,17 +134,17 @@ async function boot(): Promise<void> {
 
     document.documentElement.dataset.navigating = 'false';
     syncActiveLinks(detail.to);
-    syncDocumentTitle();
+    syncDocumentTitle(detail.to);
     syncWorkspaceInstance();
-    renderStatus(`${detail.to} in ${duration.toFixed(0)} ms`);
+    renderStatus(`${detail.to} · ${duration.toFixed(0)} ms · no reload`);
     focusPageHeading();
-    announce(`Navigated to ${document.title.replace(' — Aura Router', '')}`);
+    announce(`Loaded ${document.title.replace(' — Aura Router', '')} without a full page reload`);
   });
 
   router.addEventListener(AURA_ROUTER_NAVIGATION_ERROR, (event) => {
     const detail = (event as CustomEvent<{ code?: string }>).detail;
     document.documentElement.dataset.navigating = 'false';
-    const message = detail.code ? `Navigation error: ${detail.code}` : 'Navigation failed';
+    const message = detail.code ? `Could not navigate (${detail.code})` : 'Could not navigate';
     text('[data-last-navigation]', message);
     announce(message);
   });
@@ -157,5 +166,5 @@ async function boot(): Promise<void> {
 
 void boot().catch((error: unknown) => {
   console.error('[Aura demo] Bootstrap failed:', error);
-  text('[data-last-navigation]', 'Router bootstrap failed');
+  text('[data-last-navigation]', 'Router could not start');
 });

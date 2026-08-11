@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Aura Router upgrades real HTML pages with fast client navigation, nested layouts, lifecycle hooks, prefetch and cache."
+      content="Aura Router adds client-side navigation, nested layouts, and intent prefetch to complete HTML pages."
     />
     <meta name="theme-color" content="#e2ad00" />
     <title>HTML-first navigation — Aura Router</title>
@@ -23,7 +23,7 @@
           <a href="/migration/" aura-router-link>Migration</a>
           <a href="/workspace/" aura-router-link>Nested demo</a>
         </nav>
-        <a class="github-link" href="https://github.com/aura-ui/router">GitHub ↗</a>
+        <a class="github-link" href="https://github.com/aura-ui/router">View on GitHub ↗</a>
       </div>
       <div class="navigation-progress" aria-hidden="true"></div>
     </header>
@@ -34,14 +34,14 @@
           <span class="demo-status__dot" aria-hidden="true"></span>
           Live navigation proof
         </span>
-        <span class="demo-status__hint">These values survive SPA transitions</span>
+        <span class="demo-status__hint">Click around. If the Load ID stays put, Aura handled it.</span>
       </div>
       <dl class="demo-status__grid">
-        <div class="status-value"><dt>Document load</dt><dd data-document-load>—</dd></div>
-        <div class="status-value"><dt>Boot token</dt><dd data-boot-token>—</dd></div>
-        <div class="status-value"><dt>Boot time</dt><dd data-boot-time>—</dd></div>
-        <div class="status-value"><dt>SPA transitions</dt><dd data-spa-count>0</dd></div>
-        <div class="status-value"><dt>Last navigation</dt><dd data-last-navigation>HTML only</dd></div>
+        <div class="status-value"><dt>Full page loads</dt><dd data-document-load>—</dd></div>
+        <div class="status-value"><dt>Load ID</dt><dd data-boot-token>—</dd></div>
+        <div class="status-value"><dt>Started at</dt><dd data-boot-time>—</dd></div>
+        <div class="status-value"><dt>Client transitions</dt><dd data-spa-count>0</dd></div>
+        <div class="status-value"><dt>Last update</dt><dd data-last-navigation>Static HTML loaded</dd></div>
       </dl>
     </section>
 
@@ -57,20 +57,20 @@
           <p class="eyebrow">MPA first. SPA when ready.</p>
           <h1>Keep the HTML. Upgrade the navigation.</h1>
           <p class="lede">
-            Aura Router adds client navigation, nested layouts and route lifecycle to
-            server-rendered or static HTML—without turning your site into an empty app shell.
+            Turn the HTML you already ship into an SPA experience—with nested layouts
+            and route lifecycle, but without rebuilding it as an app shell.
           </p>
           <div class="actions">
-            <a class="button button--primary" href="/about/" aura-router-link>Try an SPA transition</a>
-            <a class="button" href="/migration/" aura-router-link>See the migration</a>
+            <a class="button button--primary" href="/about/" aura-router-link>Try it—no reload</a>
+            <a class="button" href="/migration/" aura-router-link>See the three-step migration</a>
           </div>
         </div>
-        <aside class="proof-panel" aria-label="Demo guarantees">
-          <p class="proof-panel__title">This demo is honest HTML</p>
+        <aside class="proof-panel" aria-label="Ways to verify the demo">
+          <p class="proof-panel__title">This demo is honest HTML.</p>
           <ul class="proof-list">
-            <li><span class="check">✓</span><span><strong>View source:</strong> content exists before JavaScript.</span></li>
-            <li><span class="check">✓</span><span><strong>Disable JS:</strong> navigation still works.</span></li>
-            <li><span class="check">✓</span><span><strong>Enable JS:</strong> only the page content changes.</span></li>
+            <li><span class="check">✓</span><span><strong>View source:</strong> the content is already there.</span></li>
+            <li><span class="check">✓</span><span><strong>Disable JavaScript:</strong> every link still works.</span></li>
+            <li><span class="check">✓</span><span><strong>Enable JavaScript:</strong> pages change without a full reload.</span></li>
           </ul>
         </aside>
       </div>
@@ -82,25 +82,25 @@
             <h2>Progressive by default</h2>
           </div>
           <p>
-            The browser and server remain in charge of the first visit. Aura starts after
-            that, adopts the existing page, and intercepts only eligible same-origin links.
+            On the first visit, the browser loads a complete page from your host. Aura then
+            adopts the rendered content and enhances marked same-origin links.
           </p>
         </div>
         <div class="card-grid">
           <article class="card">
             <span class="card__index">01 / HTML</span>
             <h3>Real pages</h3>
-            <p>Each URL returns meaningful HTML for users, crawlers and no-JS browsing.</p>
+            <p>Each URL returns useful HTML for people, search crawlers and browsers without JavaScript.</p>
           </article>
           <article class="card">
-            <span class="card__index">02 / ADOPT</span>
+            <span class="card__index">02 / REUSE</span>
             <h3>No duplicate first fetch</h3>
-            <p>The live <code>#content</code> is adopted instead of immediately re-rendered.</p>
+            <p>On flat routes, Aura adopts the <code>#content</code> already on screen and skips the pointless second fetch.</p>
           </article>
           <article class="card">
             <span class="card__index">03 / NAVIGATE</span>
             <h3>SPA after boot</h3>
-            <p>Later links fetch HTML, extract the next view and update browser history.</p>
+            <p>Later links fetch HTML, extract the next view, and update browser history.</p>
           </article>
         </div>
       </section>
@@ -108,8 +108,8 @@
       <section class="section">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">The entire starting point</p>
-            <h2>Routes stay in markup</h2>
+            <p class="eyebrow">Minimal setup</p>
+            <h2>Routes stay in HTML</h2>
           </div>
           <p>No framework adapter is required. Use plain HTML, vanilla Custom Elements or Lit.</p>
         </div>
@@ -118,7 +118,9 @@
             <span>index.html</span>
             <button class="copy-button" type="button" data-copy="#quick-start" aria-label="Copy quick start">Copy</button>
           </div>
-          <pre id="quick-start"><code>&lt;aura-router extract="#content"&gt;
+          <pre id="quick-start"><code>&lt;aura-outlet&gt;&lt;/aura-outlet&gt;
+
+&lt;aura-router extract="#content"&gt;
   &lt;aura-route path="/" view="/"&gt;&lt;/aura-route&gt;
   &lt;aura-route path="/about/" view="/about/"&gt;&lt;/aura-route&gt;
 &lt;/aura-router&gt;
@@ -154,12 +156,12 @@
     <template id="workspace-shell">
       <section class="workspace-shell" data-workspace-shell>
         <aside class="workspace-sidebar">
-          <p class="workspace-sidebar__brand">Persistent workspace</p>
+          <p class="workspace-sidebar__brand">Shared workspace layout</p>
           <nav aria-label="Workspace navigation">
             <a href="/workspace/" aura-router-link>Overview</a>
             <a href="/workspace/settings/" aura-router-link>Settings</a>
           </nav>
-          <p class="shell-proof">Layout instance<code data-shell-instance>pending</code></p>
+          <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
         </aside>
         <aura-outlet class="workspace-content"></aura-outlet>
       </section>
@@ -168,8 +170,8 @@
     <template id="not-found">
       <main id="content" class="page">
         <p class="eyebrow">404</p>
-        <h1>That route is not in this demo.</h1>
-        <p class="lede">The client catch-all kept the navigation inside the current document.</p>
+        <h1>Lost route. No reload.</h1>
+        <p class="lede">Aura caught it without reloading. Open this URL directly and the host still returns a real 404.</p>
         <a class="button button--primary" href="/" aura-router-link>Return home</a>
       </main>
     </template>

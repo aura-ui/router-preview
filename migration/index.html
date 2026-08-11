@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A minimal static HTML to SPA navigation migration with Aura Router." />
+    <meta name="description" content="Add client-side navigation to an existing HTML site with Aura Router." />
     <meta name="theme-color" content="#e2ad00" />
     <title>Migration guide — Aura Router</title>
   </head>
@@ -17,7 +17,7 @@
           <a href="/migration/" aura-router-link>Migration</a>
           <a href="/workspace/" aura-router-link>Nested demo</a>
         </nav>
-        <a class="github-link" href="https://github.com/aura-ui/router">GitHub ↗</a>
+        <a class="github-link" href="https://github.com/aura-ui/router">View on GitHub ↗</a>
       </div>
       <div class="navigation-progress" aria-hidden="true"></div>
     </header>
@@ -25,31 +25,31 @@
     <section class="demo-status" aria-label="Live navigation proof">
       <div class="demo-status__topline">
         <span class="demo-status__label"><span class="demo-status__dot" aria-hidden="true"></span>Live navigation proof</span>
-        <span class="demo-status__hint">The source page remains a real document</span>
+        <span class="demo-status__hint">Every route still works as a complete HTML page</span>
       </div>
       <dl class="demo-status__grid">
-        <div class="status-value"><dt>Document load</dt><dd data-document-load>—</dd></div>
-        <div class="status-value"><dt>Boot token</dt><dd data-boot-token>—</dd></div>
-        <div class="status-value"><dt>Boot time</dt><dd data-boot-time>—</dd></div>
-        <div class="status-value"><dt>SPA transitions</dt><dd data-spa-count>0</dd></div>
-        <div class="status-value"><dt>Last navigation</dt><dd data-last-navigation>HTML only</dd></div>
+        <div class="status-value"><dt>Full page loads</dt><dd data-document-load>—</dd></div>
+        <div class="status-value"><dt>Load ID</dt><dd data-boot-token>—</dd></div>
+        <div class="status-value"><dt>Started at</dt><dd data-boot-time>—</dd></div>
+        <div class="status-value"><dt>Client transitions</dt><dd data-spa-count>0</dd></div>
+        <div class="status-value"><dt>Last update</dt><dd data-last-navigation>Static HTML loaded</dd></div>
       </dl>
     </section>
 
-    <noscript><p class="noscript">JavaScript is disabled. The migration preserves ordinary browser navigation.</p></noscript>
+    <noscript><p class="noscript">JavaScript is disabled. Good: every route still works as a complete HTML page.</p></noscript>
 
     <main id="content" class="page">
       <p class="eyebrow">Minimal migration</p>
       <h1>Three changes, not a rewrite.</h1>
       <p class="lede">
-        Keep your pages and links. Identify the content region, declare the routes,
-        and install the custom elements.
+        Keep your pages. Keep your links. Choose the content region, declare the route URLs,
+        and add one small routing layer.
       </p>
 
       <section class="section">
         <div class="section-heading">
-          <div><p class="eyebrow">Step 1</p><h2>Keep ordinary links</h2></div>
-          <p>Add one opt-in attribute. The original <code>href</code> remains the no-JS fallback and the canonical destination.</p>
+          <div><p class="eyebrow">Step 1</p><h2>Keep the links that already work</h2></div>
+          <p>Add one opt-in attribute. The original <code>href</code> remains the link destination and the fallback when JavaScript is unavailable.</p>
         </div>
         <div class="code-window">
           <div class="code-window__bar"><span>navigation.html</span><button class="copy-button" type="button" data-copy="#links-code" aria-label="Copy navigation HTML">Copy</button></div>
@@ -62,13 +62,13 @@
 
       <section class="section">
         <div class="section-heading">
-          <div><p class="eyebrow">Step 2</p><h2>Declare the HTML views</h2></div>
-          <p><code>extract</code> selects the same content region from full HTML responses and adopts it on first paint.</p>
+          <div><p class="eyebrow">Step 2</p><h2>Point Aura at your content</h2></div>
+          <p><code>extract</code> is the handshake: it tells Aura what to take from the next HTML page—and, on a flat initial route, what to reuse from the first one.</p>
         </div>
         <div class="code-window">
           <div class="code-window__bar"><span>routes.html</span><button class="copy-button" type="button" data-copy="#routes-code" aria-label="Copy route configuration">Copy</button></div>
           <pre id="routes-code"><code>&lt;main id="content"&gt;
-  &lt;h1&gt;The server rendered this&lt;/h1&gt;
+  &lt;h1&gt;The host served this HTML&lt;/h1&gt;
 &lt;/main&gt;
 
 &lt;aura-outlet&gt;&lt;/aura-outlet&gt;
@@ -81,8 +81,8 @@
 
       <section class="section">
         <div class="section-heading">
-          <div><p class="eyebrow">Step 3</p><h2>Install once</h2></div>
-          <p>The router runs only in the browser. Static hosting, PHP, Rails, Django, Express and other backends can keep serving HTML as before.</p>
+          <div><p class="eyebrow">Step 3</p><h2>Start Aura once</h2></div>
+          <p>Aura runs in the browser. Your static host or backend keeps serving the same complete HTML pages.</p>
         </div>
         <div class="code-window">
           <div class="code-window__bar"><span>main.js</span><button class="copy-button" type="button" data-copy="#install-code" aria-label="Copy install JavaScript">Copy</button></div>
@@ -93,8 +93,15 @@ AuraRouter.install();</code></pre>
       </section>
 
       <section class="section">
+        <div class="section-heading">
+          <div><p class="eyebrow">Going nested?</p><h2>Add the matching layout shell</h2></div>
+          <p>Nested layouts also need the parent layout, child outlet, and <code>aura-router-ssr</code> marker in the HTML returned for a direct URL.</p>
+        </div>
+      </section>
+
+      <section class="section">
         <div class="actions">
-          <a class="button button--primary" href="/workspace/" aura-router-link>Try nested layouts</a>
+          <a class="button button--primary" href="/workspace/" aura-router-link>See nested routing in action</a>
           <a class="button" href="https://github.com/aura-ui/router/blob/main/docs/guide.md">Read the full guide ↗</a>
         </div>
       </section>
@@ -114,15 +121,15 @@ AuraRouter.install();</code></pre>
     <template id="workspace-shell">
       <section class="workspace-shell" data-workspace-shell>
         <aside class="workspace-sidebar">
-          <p class="workspace-sidebar__brand">Persistent workspace</p>
+          <p class="workspace-sidebar__brand">Shared workspace layout</p>
           <nav aria-label="Workspace navigation"><a href="/workspace/" aura-router-link>Overview</a><a href="/workspace/settings/" aura-router-link>Settings</a></nav>
-          <p class="shell-proof">Layout instance<code data-shell-instance>pending</code></p>
+          <p class="shell-proof">Layout ID<code data-shell-instance>Starting…</code></p>
         </aside>
         <aura-outlet class="workspace-content"></aura-outlet>
       </section>
     </template>
     <template id="not-found">
-      <main id="content" class="page"><p class="eyebrow">404</p><h1>That route is not in this demo.</h1><p class="lede">The client catch-all kept the navigation inside the current document.</p><a class="button button--primary" href="/" aura-router-link>Return home</a></main>
+      <main id="content" class="page"><p class="eyebrow">404</p><h1>Lost route. No reload.</h1><p class="lede">Aura caught it without reloading. Open this URL directly and the host still returns a real 404.</p><a class="button button--primary" href="/" aura-router-link>Return home</a></main>
     </template>
 
     <p class="sr-only" aria-live="polite" data-route-announcer></p>
