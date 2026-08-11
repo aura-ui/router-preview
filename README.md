@@ -1,5 +1,8 @@
 # Aura Router hosted demo
 
+[Live demo](https://aura-ui.github.io/router-preview/) ·
+[aura-ui/router](https://github.com/aura-ui/router)
+
 Static multi-page demo that adds client-side navigation after
 `AuraRouter.install()`.
 
