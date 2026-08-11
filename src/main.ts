@@ -4,7 +4,6 @@ import {
   AURA_ROUTER_NAVIGATION_ERROR,
   AURA_ROUTER_NAVIGATION_START,
 } from '@auraui/router';
-import './styles.css';
 
 const pageSessionKey = 'aura-demo-document-loads';
 const documentLoads = Number(sessionStorage.getItem(pageSessionKey) ?? '0') + 1;
