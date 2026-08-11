@@ -20,12 +20,16 @@ const bootToken = crypto.randomUUID().slice(0, 8);
 let spaNavigations = 0;
 let navigationStartedAt = 0;
 
+const basePath = normalizePath(import.meta.env.BASE_URL);
+const routePath = (pathname: string): string =>
+  pathname === '/' ? basePath : `${basePath}${pathname}`;
+
 const routeTitles = new Map([
-  ['/', 'HTML-first navigation'],
-  ['/about', 'How it works'],
-  ['/migration', 'Migration guide'],
-  ['/workspace', 'Nested layout demo'],
-  ['/workspace/settings', 'Workspace settings'],
+  [routePath('/'), 'HTML-first navigation'],
+  [routePath('/about'), 'How it works'],
+  [routePath('/migration'), 'Migration guide'],
+  [routePath('/workspace'), 'Nested layout demo'],
+  [routePath('/workspace/settings'), 'Workspace settings'],
 ]);
 
 function text(selector: string, value: string): void {
@@ -40,6 +44,7 @@ function normalizePath(pathname: string): string {
 
 function syncActiveLinks(pathname = window.location.pathname): void {
   const current = normalizePath(pathname);
+  const workspacePath = routePath('/workspace');
 
   for (const link of document.querySelectorAll<HTMLAnchorElement>(
     '[data-site-nav] a, .workspace-sidebar nav a',
@@ -48,8 +53,8 @@ function syncActiveLinks(pathname = window.location.pathname): void {
     const exact = current === target;
     const branch =
       link.closest('[data-site-nav]') !== null &&
-      target === '/workspace' &&
-      current.startsWith('/workspace/');
+      target === workspacePath &&
+      current.startsWith(`${workspacePath}/`);
 
     link.classList.toggle('is-active', exact || branch);
     if (exact || branch) {

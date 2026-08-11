@@ -1,10 +1,13 @@
 import { expect, test } from '@playwright/test';
 
+const basePath = '/router-preview';
+const route = (pathname: string): string => `${basePath}${pathname}`;
+
 test('serves meaningful HTML at every public URL', async ({ request }) => {
   const pages = ['/', '/about/', '/migration/', '/workspace/', '/workspace/settings/'];
 
   for (const pathname of pages) {
-    const response = await request.get(pathname);
+    const response = await request.get(route(pathname));
     expect(response.ok(), `${pathname} should be a real static page`).toBe(true);
     const html = await response.text();
     expect(html).toContain('<main');
@@ -14,7 +17,7 @@ test('serves meaningful HTML at every public URL', async ({ request }) => {
 });
 
 test('upgrades ordinary links without reloading the document', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(route('/'));
   await expect(page.locator('html')).toHaveAttribute('data-router-ready', 'true');
 
   const bootToken = await page.locator('[data-boot-token]').textContent();
@@ -23,7 +26,7 @@ test('upgrades ordinary links without reloading the document', async ({ page }) 
   await page.evaluate(() => window.scrollTo(0, 300));
   await page.getByRole('link', { name: 'How it works' }).first().click();
 
-  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/about\/$/);
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your host keeps its job.');
   await expect(page.locator('[data-boot-token]')).toHaveText(bootToken ?? '');
@@ -32,23 +35,23 @@ test('upgrades ordinary links without reloading the document', async ({ page }) 
 });
 
 test('supports browser back and forward through SPA history', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(route('/'));
   await page.getByRole('link', { name: 'Migration' }).first().click();
-  await expect(page).toHaveURL(/\/migration\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/migration\/$/);
 
   await page.goBack();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Keep the HTML');
 
   await page.goForward();
-  await expect(page).toHaveURL(/\/migration\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/migration\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Three changes, not a rewrite.',
   );
 });
 
 test('keeps a nested layout mounted while swapping child routes', async ({ page }) => {
-  await page.goto('/workspace/');
+  await page.goto(route('/workspace/'));
   await expect(page.locator('html')).toHaveAttribute('data-router-ready', 'true');
 
   const instance = await page.locator('[data-shell-instance]').textContent();
@@ -56,7 +59,7 @@ test('keeps a nested layout mounted while swapping child routes', async ({ page 
 
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
 
-  await expect(page).toHaveURL(/\/workspace\/settings\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/workspace\/settings\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'The child page changed. The layout did not.',
   );
@@ -75,19 +78,19 @@ test('retains a full-document fallback when JavaScript is disabled', async ({ br
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
 
-  await page.goto('/');
+  await page.goto(route('/'));
   await expect(page.locator('.noscript')).toContainText(
     'Good: every link still opens a real HTML page',
   );
   await page.getByRole('link', { name: 'How it works' }).first().click();
 
-  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page).toHaveURL(/\/router-preview\/about\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your host keeps its job.');
   await expect(page.locator('[data-spa-count]')).toHaveText('0');
   await context.close();
 });
 
 test('does not mask unknown direct URLs with an SPA fallback', async ({ request }) => {
-  const response = await request.get('/this-page-does-not-exist/');
+  const response = await request.get(route('/this-page-does-not-exist/'));
   expect(response.status()).toBe(404);
 });
