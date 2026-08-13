@@ -25,7 +25,7 @@ const routePath = (pathname: string): string =>
   pathname === '/' ? basePath : `${basePath}${pathname}`;
 
 const routeTitles = new Map([
-  [routePath('/'), 'HTML-first navigation'],
+  [routePath('/'), 'HTML-first client navigation'],
   [routePath('/about'), 'How it works'],
   [routePath('/migration'), 'Migration guide'],
   [routePath('/workspace'), 'Nested layout demo'],

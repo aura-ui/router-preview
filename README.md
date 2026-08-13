@@ -4,8 +4,8 @@
 [aura-ui/router](https://github.com/aura-ui/router) ·
 [Article](https://dev.to/aura-ui/why-i-built-an-spa-router-for-html-and-web-components-25dm)
 
-Static multi-page demo that adds client-side navigation after
-`AuraRouter.install()`.
+HTML-first client navigation demo: a complete HTML page at every public URL,
+then Aura upgrades marked links after `AuraRouter.install()`.
 
 The demo keeps a complete HTML page at every public URL:
 
