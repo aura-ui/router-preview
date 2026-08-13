@@ -720,13 +720,24 @@ pre {
 
 .site-footer__inner {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: min(1180px, calc(100% - 36px));
   margin: 0 auto;
-  padding: 28px 0;
+  padding: 20px 0;
   gap: 20px;
   color: var(--muted);
   font-size: 13px;
+}
+
+.site-footer__inner p {
+  margin: 0;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
 }
 
 .site-footer a {
@@ -734,6 +745,11 @@ pre {
   min-height: 44px;
   align-items: center;
   color: var(--text);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--accent-strong);
 }
 
 .noscript {
@@ -871,7 +887,9 @@ pre {
   }
 
   .site-footer__inner {
+    align-items: flex-start;
     flex-direction: column;
+    gap: 4px;
   }
 }
 
