@@ -40,7 +40,7 @@ Start the demo:
 npm run dev
 ```
 
-The demo consumes the published `@auraui/router@0.1.0` package from npm. Open
+The demo consumes the published `@auraui/router@0.2.0` package from npm. Open
 the `/router-preview/` URL printed by Vite.
 
 ## Production build

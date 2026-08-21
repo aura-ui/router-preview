@@ -24,14 +24,6 @@ const basePath = normalizePath(import.meta.env.BASE_URL);
 const routePath = (pathname: string): string =>
   pathname === '/' ? basePath : `${basePath}${pathname}`;
 
-const routeTitles = new Map([
-  [routePath('/'), 'HTML-first client navigation'],
-  [routePath('/about'), 'How it works'],
-  [routePath('/migration'), 'Migration guide'],
-  [routePath('/workspace'), 'Nested layout demo'],
-  [routePath('/workspace/settings'), 'Workspace settings'],
-]);
-
 function text(selector: string, value: string): void {
   const element = document.querySelector<HTMLElement>(selector);
   if (element) element.textContent = value;
@@ -65,12 +57,6 @@ function syncActiveLinks(pathname = window.location.pathname): void {
   }
 }
 
-function syncDocumentTitle(pathname = window.location.pathname): void {
-  const routePath = normalizePath(new URL(pathname, window.location.href).pathname);
-  const heading = document.querySelector<HTMLElement>('#content h1');
-  const title = routeTitles.get(routePath) ?? heading?.textContent?.trim() ?? 'Demo';
-  document.title = `${title} – Aura Router`;
-}
 
 function syncWorkspaceInstance(): void {
   const shell = document.querySelector<HTMLElement>('[data-workspace-shell]');
@@ -150,7 +136,6 @@ async function boot(): Promise<void> {
 
     document.documentElement.dataset.navigating = 'false';
     syncActiveLinks(detail.to);
-    syncDocumentTitle(detail.to);
     syncWorkspaceInstance();
     highlightCodeExamples();
     renderStatus(`${detail.to} · ${duration.toFixed(0)} ms · no reload`);
@@ -175,7 +160,6 @@ async function boot(): Promise<void> {
   AuraRouter.install();
   await waitForBootstrap(router);
   syncActiveLinks();
-  syncDocumentTitle();
   syncWorkspaceInstance();
   highlightCodeExamples();
   renderStatus();
